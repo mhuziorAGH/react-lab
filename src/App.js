@@ -2,32 +2,22 @@ import logo from './logo.svg';
 import './App.css';
 import {useState} from "react";
 import "milligram";
+import LoginForm from "./LoginForm";
+import LoginForm from "./UserPanel";
 
 function App() {
-    const [email, setEmail] = useState('fracz@agh.edu.pl');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    function handleChange(event) {
-        setEmail(event.target.value);
-    }
+    const[loggedInUsername, setLoggedInUsername] = useState(null);
+
   return (
-    <div>
+    <div className="container">
         <h1>System do zapisów na zajęcia</h1>
-        {!isLoggedIn &&
-            <div>
-                <p>Zaloguj się się mailem</p>
-                <input type="text" onChange={handleChange}/>
-                <button onClick={() => setIsLoggedIn(true)}>Zaloguj się</button>
-            </div>
-        }
-        {isLoggedIn &&
-            <div>
-                <h1>Witaj {email}</h1>
-                <br/>
-                <a onClick={() => setIsLoggedIn(false)}>Wyloguj</a>
-            </div>
+        {
+            loggedInUsername
+                ? <UserPanel email={loggedInUsername}
+                             onLogout={() => setLoggedInUsername(null)}/>
+                : <LoginForm onLogin={(email) => setLoggedInUsername(email)}/>
         }
     </div>
   );
 }
-
 export default App;
